@@ -1,0 +1,509 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Help Button */
+.help-button {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    width: 50px;
+    height: 50px;
+    font-size: 24px;
+    background-color: #1a1a1a;
+    color: #ffffff;
+    border: 2px solid #333;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 500;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.help-button:hover {
+    background-color: #2a2a2a;
+    border-color: #0066cc;
+    transform: scale(1.1);
+}
+
+body {
+    background-color: #000000;
+    color: #ffffff;
+    font-family: Arial, sans-serif;
+    overflow-x: hidden;
+}
+
+.game-container {
+    padding: 20px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* Stats Container */
+.stats-container {
+    display: flex;
+    gap: 25px;
+    justify-content: center;
+    padding: 20px;
+    background-color: #1a1a1a;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 100px;
+}
+
+.stat-label {
+    font-size: 14px;
+    color: #aaaaaa;
+    margin-bottom: 5px;
+}
+
+.stat-value {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+/* Factions Container */
+.factions-container {
+    margin-bottom: 30px;
+}
+
+.factions-container h2 {
+    text-align: center;
+    margin-bottom: 15px;
+    font-size: 24px;
+}
+
+.factions-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    padding: 10px;
+}
+
+.faction {
+    background-color: #1a1a1a;
+    border-radius: 8px;
+    padding: 15px;
+    text-align: center;
+    border: 2px solid #333;
+    transition: border-color 0.3s;
+}
+
+.faction:hover {
+    border-color: #555;
+}
+
+.faction-icon {
+    font-size: 36px;
+    margin-bottom: 10px;
+}
+
+.faction-name {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.faction-power {
+    font-size: 20px;
+    color: #ffd700;
+    margin-bottom: 10px;
+}
+
+.faction-people {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 5px;
+    min-height: 30px;
+}
+
+/* Person Icon Styling */
+.person-icon {
+    width: 20px;
+    height: 20px;
+    background-color: #0066cc;
+    border-radius: 3px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s, opacity 0.2s;
+    cursor: grab;
+    font-size: 14px;
+    line-height: 1;
+}
+
+.person-icon:hover {
+    transform: scale(1.2);
+}
+
+.person-icon.dragging {
+    opacity: 0.5;
+    cursor: grabbing;
+}
+
+/* Drag and Drop Visual Feedback */
+.faction.drag-over {
+    border-color: #0066cc;
+    background-color: #2a2a3a;
+    box-shadow: 0 0 15px rgba(0, 102, 204, 0.3);
+}
+
+/* Cards Container */
+.cards-container {
+    margin-bottom: 30px;
+}
+
+.cards-container h2 {
+    text-align: center;
+    margin-bottom: 15px;
+    font-size: 24px;
+}
+
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 15px;
+    padding: 10px;
+}
+
+.card {
+    background-color: #1a1a1a;
+    border-radius: 8px;
+    padding: 15px;
+    cursor: pointer;
+    transition: all 0.3s;
+    border: 3px solid transparent;
+    min-height: 150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(255, 255, 255, 0.1);
+}
+
+.card.selected {
+    border-color: #ffd700;
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+}
+
+.card.negative {
+    border-left: 5px solid #ff69b4;
+}
+
+.card.positive {
+    border-left: 5px solid #90ee90;
+}
+
+.card.neutral {
+    border-left: 5px solid #a3a3a3;
+}
+
+.card-name {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.card-description {
+    font-size: 12px;
+    color: #cccccc;
+    text-align: center;
+    line-height: 1.4;
+}
+
+/* Confirm Button */
+.confirm-container {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+}
+
+.confirm-button {
+    width: 200px;
+    padding: 15px 30px;
+    font-size: 18px;
+    font-weight: bold;
+    background-color: #4a4a4a;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.confirm-button:hover:not(:disabled) {
+    background-color: #2a2a2a;
+}
+
+.confirm-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Modal Styling */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal.active {
+    display: flex;
+}
+
+.modal-content {
+    background-color: #1a1a1a;
+    padding: 40px;
+    border-radius: 12px;
+    text-align: center;
+    max-width: 500px;
+    border: 2px solid #333;
+}
+
+.modal-content h2 {
+    font-size: 32px;
+    margin-bottom: 20px;
+    color: #ff69b4;
+}
+
+.modal-content p {
+    font-size: 16px;
+    margin-bottom: 15px;
+    color: #cccccc;
+}
+
+#final-stats {
+    font-size: 14px;
+    color: #888;
+    margin-bottom: 25px;
+}
+
+.restart-button {
+    padding: 12px 30px;
+    font-size: 16px;
+    font-weight: bold;
+    background-color: #0066cc;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.restart-button:hover {
+    background-color: #0055aa;
+}
+
+/* Card Notification Styles */
+.card-notification {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    z-index: 2000;
+    opacity: 0;
+    transform: translateX(-100%);
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+    pointer-events: none;
+}
+
+.card-notification.show {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.notification-content {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    background-color: #1a1a1a;
+    border: 2px solid #333;
+    border-radius: 8px;
+    padding: 15px 20px;
+    min-width: 300px;
+    max-width: 400px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+}
+
+.notification-icon {
+    font-size: 32px;
+    flex-shrink: 0;
+}
+
+.notification-text {
+    flex: 1;
+}
+
+.notification-title {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: #ffffff;
+}
+
+.notification-description {
+    font-size: 13px;
+    color: #cccccc;
+    line-height: 1.4;
+}
+
+/* Notification type colors */
+.card-notification.positive .notification-content {
+    border-color: #90ee90;
+    box-shadow: 0 5px 20px rgba(144, 238, 144, 0.2);
+}
+
+.card-notification.negative .notification-content {
+    border-color: #ff69b4;
+    box-shadow: 0 5px 20px rgba(255, 105, 180, 0.2);
+}
+
+.card-notification.neutral .notification-content {
+    border-color: #a3a3a3;
+    box-shadow: 0 5px 20px rgba(163, 163, 163, 0.2);
+}
+
+/* Help Modal Styles */
+.help-modal {
+    z-index: 1500;
+}
+
+.help-content {
+    max-width: 800px;
+    max-height: 80vh;
+    overflow-y: auto;
+    text-align: left;
+}
+
+.help-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #333;
+    padding-bottom: 15px;
+}
+
+.help-header h2 {
+    font-size: 28px;
+    color: #0066cc;
+    margin: 0;
+}
+
+.close-help-button {
+    background: none;
+    border: none;
+    color: #888;
+    font-size: 24px;
+    cursor: pointer;
+    transition: color 0.3s;
+    padding: 5px;
+}
+
+.close-help-button:hover {
+    color: #ffffff;
+}
+
+.help-body {
+    line-height: 1.6;
+    color: #cccccc;
+}
+
+.help-body h1 {
+    font-size: 24px;
+    color: #ffffff;
+    margin: 20px 0 10px 0;
+}
+
+.help-body h2 {
+    font-size: 20px;
+    color: #ffd700;
+    margin: 15px 0 10px 0;
+}
+
+.help-body h3 {
+    font-size: 18px;
+    color: #0066cc;
+    margin: 12px 0 8px 0;
+}
+
+.help-body p {
+    margin-bottom: 10px;
+}
+
+.help-body ul, .help-body ol {
+    margin: 10px 0 10px 25px;
+}
+
+.help-body li {
+    margin-bottom: 5px;
+}
+
+.help-body table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+}
+
+.help-body th, .help-body td {
+    border: 1px solid #333;
+    padding: 8px 12px;
+    text-align: left;
+}
+
+.help-body th {
+    background-color: #2a2a2a;
+    color: #ffd700;
+}
+
+.help-body code {
+    background-color: #2a2a2a;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-family: monospace;
+}
+
+.help-body hr {
+    border: none;
+    border-top: 1px solid #333;
+    margin: 20px 0;
+}
+
+/* Scrollbar styling for help modal */
+.help-content::-webkit-scrollbar {
+    width: 10px;
+}
+
+.help-content::-webkit-scrollbar-track {
+    background: #1a1a1a;
+}
+
+.help-content::-webkit-scrollbar-thumb {
+    background: #333;
+    border-radius: 5px;
+}
+
+.help-content::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}

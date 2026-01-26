@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Они растут - пошаговая стратегия</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="game-container">
+        <button class="help-button" id="help-button">ℹ</button>
+        <div class="stats-container" id="stats">
+            <div class="stat-item">
+                <span class="stat-label">Эпоха:</span>
+                <span class="stat-value" id="epoch">1</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Население:</span>
+                <span class="stat-value" id="population">2</span>
+            </div>
+        </div>
+
+        <div class="factions-container">
+            <h2>Фракции <a style="color: gray;">(можете перетаскивать людей)</a></h2>
+            <div class="factions-grid" id="factions">
+                <div class="faction" id="faction-army">
+                    <div class="faction-icon">⚔️</div>
+                    <div class="faction-name">Армия</div>
+                    <div class="faction-power" id="army-power">0</div>
+                    <div class="faction-people" id="army-people"></div>
+                </div>
+                <div class="faction" id="faction-religion">
+                    <div class="faction-icon">🙏</div>
+                    <div class="faction-name">Религия</div>
+                    <div class="faction-power" id="religion-power">0</div>
+                    <div class="faction-people" id="religion-people"></div>
+                </div>
+                <div class="faction" id="faction-farming">
+                    <div class="faction-icon">🌾</div>
+                    <div class="faction-name">Фермерство</div>
+                    <div class="faction-power" id="farming-power">0</div>
+                    <div class="faction-people" id="farming-people"></div>
+                </div>
+                <div class="faction" id="faction-trade">
+                    <div class="faction-icon">💰</div>
+                    <div class="faction-name">Торговля</div>
+                    <div class="faction-power" id="trade-power">0</div>
+                    <div class="faction-people" id="trade-people"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="cards-container">
+            <h2>Карты событий <a style="color: gray;">(Выберете 2, будет активирована 1 случайная из выбранных.)</a></h2>
+            <div class="cards-grid" id="cards">
+                <!-- Cards will be dynamically generated -->
+            </div>
+        </div>
+
+        <div class="confirm-container">
+            <button class="confirm-button" id="confirm-button" disabled>Подтвердить выбор</button>
+        </div>
+    </div>
+
+    <div class="modal" id="game-over-modal">
+        <div class="modal-content">
+            <h2>Конец</h2>
+            <p id="game-over-message">Ваша цивилизация погибла.</p>
+            <p id="final-stats"></p>
+            <button class="restart-button" id="restart-button">Начать заново</button>
+        </div>
+    </div>
+
+    <div class="modal help-modal" id="help-modal">
+        <div class="modal-content help-content">
+            <div class="help-header">
+                <h2>🎮 Руководство по игре</h2>
+                <button class="close-help-button" id="close-help-button">✕</button>
+            </div>
+            <div class="help-body" id="help-body"></div>
+        </div>
+    </div>
+
+    <!-- Card Notification Container -->
+    <div id="card-notification" class="card-notification">
+        <div class="notification-content">
+            <div class="notification-icon"></div>
+            <div class="notification-text">
+                <div class="notification-title"></div>
+                <div class="notification-description"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="cards.js"></script>
+    <script src="game.js"></script>
+</body>
+</html>
