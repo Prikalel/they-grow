@@ -341,6 +341,11 @@ function advanceEpoch() {
     updateStats();
     updateFactions();
     updateCards();
+
+    // Suggest another game from the same developer at epoch 10
+    if (gameData.stats.epoch === 10) {
+        alert('Поздравляем! Вы достигли 10-й эпохи!\n\nПопробуйте другую игру от того же разработчика — ТРУБА:\nhttps://prikalel.gitlab.io/truba-build');
+    }
 }
 
 // Check Game Over Conditions
