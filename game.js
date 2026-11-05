@@ -296,6 +296,24 @@ function generateCards() {
     updateCards();
 }
 
+// Vuplex mode: no cross-promo
+function inVuplex() {
+    return typeof window.vuplex !== 'undefined' && window.vuplex !== null;
+}
+
+// Vuplex mode: report game result to Unity (newWinOccured)
+let vuplexEndSent = false;
+
+function postVuplexWin(gameName, score) {
+    try {
+        if (!inVuplex()) return;
+        window.vuplex.postMessage(JSON.stringify({
+            type: "newWinOccured",
+            payload: { game_name: gameName, new_score: score }
+        }));
+    } catch (e) { /* vuplex bridge unavailable — ignore */ }
+}
+
 // Advance to Next Epoch
 function advanceEpoch() {
     if (gameData.gameOver || gameData.paused) return;
@@ -343,7 +361,8 @@ function advanceEpoch() {
     updateCards();
 
     // Suggest another game from the same developer at epoch 10
-    if (gameData.stats.epoch === 10) {
+    // Vuplex mode: no cross-promo
+    if (gameData.stats.epoch === 10 && !inVuplex()) {
         alert('Поздравляем! Вы достигли 10-й эпохи!\n\nПопробуйте другую игру от того же разработчика — ТРУБА:\nhttps://prikalel.gitlab.io/truba-build');
     }
 }
@@ -369,6 +388,12 @@ function checkGameOver() {
 // Show Game Over Modal
 function showGameOver() {
     gameData.gameOver = true;
+    
+    // Vuplex mode: report final epoch, exactly once per game over
+    if (!vuplexEndSent) {
+        vuplexEndSent = true;
+        postVuplexWin('theygrow', gameData.stats.epoch);
+    }
     
     elements.gameOverMessage.textContent = 'Цивилизация погибла.';
     elements.finalStats.innerHTML = `
@@ -421,6 +446,7 @@ function restartGame() {
     gameData.people.nextId = 3;
     gameData.cards.selected = [];
     gameData.gameOver = false;
+    vuplexEndSent = false;
     
     // Hide modal
     elements.gameOverModal.classList.remove('active');
